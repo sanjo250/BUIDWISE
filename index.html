@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BUILDWISE | Building Energy Digital Twin</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="topbar">
+  <a class="brand" href="#home">BUILD<span>WISE</span></a>
+  <nav>
+    <a href="#home">Home</a><a href="#profile">Building</a><a href="#dashboard">Baseline</a>
+    <a href="#scenarios">Simulate</a><a href="#results">Results</a><a href="#method">Method</a>
+  </nav>
+</header>
+
+<main>
+<section id="home" class="hero">
+  <div class="hero-copy">
+    <div class="eyebrow">BUILDING ENERGY DIGITAL TWIN</div>
+    <h1>Make better<br><em>energy decisions.</em></h1>
+    <p>Explore what-if energy-efficiency improvements for your building before investing in real-world changes.</p>
+    <div class="hero-actions"><a class="btn" href="#profile">Create building profile →</a><a class="text-link" href="#how">How it works ↓</a></div>
+    <div class="trustline"><span class="pulse"></span> A transparent, student-level decision-support prototype</div>
+  </div>
+  <div class="hero-visual">
+    <div class="visual-top"><span>BUILDING ENERGY SNAPSHOT</span><span class="live-dot">● MODEL PREVIEW</span></div>
+    <div class="building-art">
+      <div class="sun"></div><div class="building">
+        <div class="roof"></div><div class="building-body">
+          <div class="windows"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+          <div class="door"></div>
+        </div>
+      </div>
+      <div class="ground"></div>
+    </div>
+    <div class="visual-bottom"><div><small>ENERGY INSIGHT</small><strong>What if we used less?</strong></div><div class="bolt">↗</div></div>
+  </div>
+</section>
+
+<section id="how" class="intro section-wrap">
+  <div><div class="eyebrow">THE BUILDWISE APPROACH</div><h2>From building data<br>to informed choices.</h2></div>
+  <p>Traditional dashboards summarize current consumption. BUILDWISE adds a simple scenario layer so users can compare possible improvements using clear assumptions and indicative calculations.</p>
+</section>
+
+<section id="profile" class="section-wrap section-panel">
+  <div class="section-heading"><div><div class="eyebrow">01 / BUILDING PROFILE</div><h2>Tell us about your building.</h2><p>Enter basic operating information and annual electricity use.</p></div><span class="step-pill">STEP 1</span></div>
+  <form id="profileForm" class="form-grid">
+    <label>Building name<input id="buildingName" required placeholder="e.g. RSET Main Block"></label>
+    <label>Building type<select id="buildingType" required><option value="">Select type</option><option>Educational</option><option>Office</option><option>Commercial</option><option>Residential</option><option>Hospital</option><option>Other</option></select></label>
+    <label>Relevant floor area (m²)<input id="floorArea" type="number" min="1" required placeholder="5000"></label>
+    <label>Average occupancy (people)<input id="occupancy" type="number" min="1" required placeholder="500"></label>
+    <label>Operating days per year<input id="operatingDays" type="number" min="1" max="365" required placeholder="250"></label>
+    <label>Operating hours per day<input id="operatingHours" type="number" min="1" max="24" step="0.5" required placeholder="8"></label>
+    <label class="wide">Annual electricity consumption (kWh)<input id="annualEnergy" type="number" min="1" required placeholder="100000"><small>Use a bill or historical record when available. Test values are illustrative.</small></label>
+    <div class="wide form-actions"><button class="btn" type="submit">Create / update profile →</button><span id="profileMessage" role="status">Your data stays in this page while it is open.</span></div>
+  </form>
+</section>
+
+<section id="dashboard" class="section-wrap">
+  <div class="section-heading"><div><div class="eyebrow">02 / BASELINE DASHBOARD</div><h2>Your energy baseline.</h2><p>A snapshot calculated from the profile you enter.</p></div><span class="step-pill">STEP 2</span></div>
+  <div class="metric-grid">
+    <article class="metric"><span>ANNUAL ELECTRICITY</span><strong id="metricEnergy">—</strong><small>kWh / year</small></article>
+    <article class="metric"><span>ENERGY PERFORMANCE INDEX</span><strong id="metricEpi">—</strong><small>kWh / m² / year</small></article>
+    <article class="metric"><span>FLOOR AREA</span><strong id="metricArea">—</strong><small>m²</small></article>
+    <article class="metric"><span>OCCUPANCY</span><strong id="metricOccupancy">—</strong><small>people</small></article>
+  </div>
+  <div class="baseline-strip"><div><span class="eyebrow">CURRENT PROFILE</span><h3 id="baselineName">No building profile yet</h3><p id="baselineDetail">Complete the profile above to calculate your baseline.</p></div><span class="status"><i></i> Model status: ready for input</span></div>
+  <div class="monthly-card">
+    <div class="section-heading compact"><div><div class="eyebrow">MONTHLY PROFILE</div><h3>Monthly electricity consumption</h3><p>Enter monthly kWh values if you have them. They are optional.</p></div><button type="button" class="btn btn-light" id="fillExample">Fill illustrative example</button></div>
+    <div class="months-grid" id="monthsGrid"></div>
+    <div class="chart-area"><div class="chart-label"><span>MONTHLY CONSUMPTION</span><span>kWh</span></div><div id="monthChart" class="bar-chart"><p class="empty-chart">Add monthly values or fill the illustrative example to see the chart.</p></div></div>
+    <p class="note">Monthly values are for visualization. If their total differs from annual consumption, BUILDWISE does not silently overwrite the annual baseline.</p>
+  </div>
+</section>
+
+<section id="scenarios" class="section-wrap section-panel">
+  <div class="section-heading"><div><div class="eyebrow">03 / WHAT-IF SCENARIO BUILDER</div><h2>What would you change?</h2><p>Adjust the assumptions below to model a potential improvement.</p></div><span class="step-pill">STEP 3</span></div>
+  <div class="scenario-layout">
+    <div class="scenario-controls">
+      <label>Improvement type<select id="scenarioType">
+        <option value="lighting">Efficient lighting</option>
+        <option value="hvac">HVAC schedule optimization</option>
+        <option value="equipment">Efficient equipment</option>
+        <option value="envelope">Building envelope improvement</option>
+        <option value="renewable">Rooftop renewable generation</option>
+        <option value="combined">Combined measures</option>
+      </select></label>
+      <div class="control-block"><div class="range-title"><label for="reduction">Estimated reduction in grid electricity</label><strong><span id="reductionValue">12</span>%</strong></div><input id="reduction" type="range" min="1" max="50" value="12"><small>Illustrative assumption; adjust based on evidence or your team's chosen scenario.</small></div>
+      <label>Estimated implementation cost (₹)<input id="cost" type="number" min="0" value="150000" step="1000"></label>
+      <label>Electricity tariff (₹ / kWh)<input id="tariff" type="number" min="0" value="8" step="0.1"></label>
+      <label>Grid emission factor (kg CO₂ / kWh)<input id="carbonFactor" type="number" min="0" value="0.716" step="0.001"></label>
+      <button class="btn" id="runScenario" type="button">Run what-if simulation →</button>
+      <p class="note">All scenario outcomes are estimates, not measured savings or a professional energy audit.</p>
+    </div>
+    <aside class="scenario-explainer"><div class="big-bolt">↗</div><h3>Compare before you commit.</h3><p>BUILDWISE applies your selected reduction assumption to the annual baseline, then estimates energy, bill and emissions differences.</p><ul><li>Transparent assumptions</li><li>Baseline vs scenario</li><li>Indicative payback</li></ul></aside>
+  </div>
+</section>
+
+<section id="results" class="section-wrap">
+  <div class="section-heading"><div><div class="eyebrow">04 / COMPARISON & INSIGHTS</div><h2>Your scenario results.</h2><p>Run a simulation after creating a building profile.</p></div><span class="step-pill">STEP 4</span></div>
+  <div id="resultPrompt" class="result-prompt">Create your building profile, then run a what-if simulation to populate these results.</div>
+  <div id="resultsContent" hidden>
+    <div class="result-metrics">
+      <article class="result-card"><span>ESTIMATED ENERGY SAVED</span><strong id="savedEnergy">—</strong><small>kWh / year</small></article>
+      <article class="result-card"><span>ENERGY REDUCTION</span><strong id="savedPercent">—</strong><small>of baseline electricity</small></article>
+      <article class="result-card"><span>ESTIMATED BILL SAVING</span><strong id="savedCost">—</strong><small>₹ / year</small></article>
+      <article class="result-card"><span>AVOIDED EMISSIONS</span><strong id="savedCarbon">—</strong><small>kg CO₂ / year</small></article>
+    </div>
+    <div class="comparison">
+      <div class="comparison-head"><div><span class="eyebrow">ENERGY COMPARISON</span><h3 id="comparisonTitle">Baseline vs scenario</h3></div><span class="badge">ESTIMATE</span></div>
+      <div class="compare-row"><span>Baseline</span><div class="compare-track"><i id="baselineBar"></i></div><strong id="baselineCompare">—</strong></div>
+      <div class="compare-row"><span>Scenario</span><div class="compare-track"><i id="scenarioBar"></i></div><strong id="scenarioCompare">—</strong></div>
+      <div class="payback"><div><small>INDICATIVE SIMPLE PAYBACK</small><strong id="payback">—</strong></div><p id="recommendation">Run a scenario to see an interpretation.</p></div>
+    </div>
+    <div class="decision-note"><strong>How to interpret:</strong> The calculation assumes the selected percentage applies to annual grid electricity. Actual results depend on building systems, occupancy, weather, operating practices, tariffs and the accuracy of input data.</div>
+  </div>
+</section>
+
+<section id="method" class="section-wrap method-section">
+  <div><div class="eyebrow">05 / METHOD & LIMITATIONS</div><h2>Simple, transparent calculations.</h2><p>BUILDWISE is a student-level decision-support prototype. It is not a calibrated digital twin, professional audit, or substitute for detailed engineering simulation.</p></div>
+  <div class="formula-grid">
+    <div><span>01</span><h3>Energy Performance Index</h3><code>EPI = Annual kWh ÷ Floor area (m²)</code></div>
+    <div><span>02</span><h3>Energy saved</h3><code>Baseline kWh × Reduction (%)</code></div>
+    <div><span>03</span><h3>Bill saving</h3><code>Energy saved × Tariff (₹/kWh)</code></div>
+    <div><span>04</span><h3>Avoided emissions</h3><code>Energy saved × Grid factor (kg CO₂/kWh)</code></div>
+  </div>
+  <div class="method-bottom"><p><strong>Important:</strong> Emission factors vary by location and reporting year. Replace the default with an appropriate documented factor. Simple payback is cost divided by estimated annual bill savings; it excludes maintenance, financing, incentives and changes in energy prices.</p><button class="btn btn-light" id="exportReport" type="button">Export summary (.txt) ↓</button></div>
+</section>
+</main>
+<footer><a class="brand" href="#home">BUILD<span>WISE</span></a><p>Building Energy Digital Twin & What-If Simulation Platform</p><small>Prototype for exploring energy-efficiency options • Results are indicative only</small></footer>
+<script src="script.js"></script>
+</body>
+</html>
